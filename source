@@ -1738,4 +1738,8 @@ function OrionLib:Destroy()
 	Orion:Destroy()
 end
 
+function OrionLib.icon(icon)
+    return GetIcon(icon)
+end
+
 return OrionLib
