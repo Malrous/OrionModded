@@ -124,14 +124,21 @@ local function AddDraggingFunctionality(DragPoint, Main)
 end   
 
 local function Create(Name, Properties, Children)
-	local Object = Instance.new(Name)
-	for i, v in next, Properties or {} do
-		Object[i] = v
-	end
-	for i, v in next, Children or {} do
-		v.Parent = Object
-	end
-	return Object
+    local Object = Instance.new(Name)
+
+    for Property, Value in next, Properties or {} do
+        if Property == "Font" and typeof(Value) == "Font" then
+            Object.FontFace = Value
+        else
+            Object[Property] = Value
+        end
+    end
+
+    for _, Child in next, Children or {} do
+        Child.Parent = Object
+    end
+
+    return Object
 end
 
 local function CreateElement(ElementName, ElementFunction)
@@ -146,10 +153,14 @@ local function MakeElement(ElementName, ...)
 end
 
 local function SetProps(Element, Props)
-	table.foreach(Props, function(Property, Value)
-		Element[Property] = Value
-	end)
-	return Element
+    for Property, Value in pairs(Props) do
+        if Property == "Font" and typeof(Value) == "Font" then
+            Element.FontFace = Value
+        else
+            Element[Property] = Value
+        end
+    end
+    return Element
 end
 
 local function SetChildren(Element, Children)
